@@ -1,12 +1,16 @@
 import express from "express";
-import { chat } from "./src/gpt";
+import { chat } from "./src/gpt.js";
 
 const app = express();
 app.use(express.json());
 app.use("/", express.static("public"));
 
+// req -> requisição, é o que vem do cliente
+// res -> resposta, é o que sai do servidor, vai pro cliente
 app.get("/chat", async (req, res) => {
-  const response = await chat("Oi, tudo bem?");
+  const content = req.query.content;
+
+  const response = await chat(content);
   res.send(response.data);
 });
 

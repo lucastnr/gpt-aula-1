@@ -12,6 +12,10 @@ export const chat = async (content) => {
         content
       }
     ]
+  }, {
+    headers: {
+      "Authorization": "Bearer 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"
+    }
   });
 
   return response;
