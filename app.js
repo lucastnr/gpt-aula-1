@@ -36,8 +36,6 @@ app.get("/chat", async (req, res) => {
     chats[id].push({ role: "assistant", content: assistantMessage })
     
     res.send({ assistantMessage, id });
-
-    console.log(chats[id]);
   } catch (error) {
     console.log(error);
   }
