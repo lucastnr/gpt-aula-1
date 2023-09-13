@@ -8,10 +8,14 @@ app.use("/", express.static("public"));
 // req -> requisição, é o que vem do cliente
 // res -> resposta, é o que sai do servidor, vai pro cliente
 app.get("/chat", async (req, res) => {
-  const content = req.query.content;
+  try {
+    const content = req.query.content;
 
-  const response = await chat(content);
-  res.send(response.data);
+    const response = await chat(content);
+    res.send(response.data);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.listen(3000, () => {
