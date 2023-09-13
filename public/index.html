@@ -26,21 +26,29 @@
     <button>Enviar</button>
 
     <script>
-          // Pega a referencia do input
-          const input = document.querySelector("input");
-          // Pega a referencia do button
-          const button = document.querySelector("button");
-          // // Pega a referencia do messages
-          const messages = document.getElementById("messages");
+      // Pega a referencia do input
+      const input = document.querySelector("input");
+      // Pega a referencia do button
+      const button = document.querySelector("button");
+      // // Pega a referencia do messages
+      const messages = document.getElementById("messages");
 
-          console.log(messages);
-          // A função que vai rodar quando eu clicar no botão
-          button.onclick = () => {
-            const newMessage = `<p class="message user">${input.value}</p>`
-            // Adicionar um elemento p dentro do messages
-            messages.innerHTML += newMessage;
+      // A função que vai rodar quando eu clicar no botão
+      button.onclick = async () => {
+        const newMessage = `<p class="message user">${input.value}</p>`;
+        // Adicionar um elemento p dentro do messages
+        messages.innerHTML += newMessage;
 
-          }
+        const response = await fetch(
+          "http://localhost:3000/chat?content=" + input.value
+        );
+        const responseJson = await response.json();
+
+        const assistantMessage = responseJson.choices[0].message.content;
+
+        const newAssistantMessage = `<p class="message assistant">${assistantMessage}</p>`;
+        messages.innerHTML += newAssistantMessage;
+      };
     </script>
   </body>
 </html>
