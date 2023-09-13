@@ -32,6 +32,7 @@
       const button = document.querySelector("button");
       // // Pega a referencia do messages
       const messages = document.getElementById("messages");
+      let lastChatId = null;
 
       // A função que vai rodar quando eu clicar no botão
       button.onclick = async () => {
@@ -39,12 +40,18 @@
         // Adicionar um elemento p dentro do messages
         messages.innerHTML += newMessage;
 
-        const response = await fetch(
-          "http://localhost:3000/chat?content=" + input.value
-        );
+        let url = "http://localhost:3000/chat?content=" + input.value
+
+        if (lastChatId) {
+          url += "&id=" + lastChatId;
+        }
+
+
+        const response = await fetch(url);        
         const responseJson = await response.json();
 
-        const assistantMessage = responseJson.choices[0].message.content;
+        const assistantMessage = responseJson.assistantMessage;
+        lastChatId = responseJson.id;
 
         const newAssistantMessage = `<p class="message assistant">${assistantMessage}</p>`;
         messages.innerHTML += newAssistantMessage;

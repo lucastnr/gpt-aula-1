@@ -3,7 +3,7 @@ import axios from "axios";
 
 const url = "https://api.openai.com/v1/chat/completions";
 
-export const chat = async (content) => {
+export const chat = async (messages) => {
   // Mandar pra OpenAI
   const response = await axios.post(
     url,
@@ -13,12 +13,9 @@ export const chat = async (content) => {
         {
           role: "system",
           content:
-            "Seu nome é Lucas Tenório e você é um programador. Seu objetivo é tirar dúvida de programação apenas, você não pode falar sobre qualquer outra assunto que não seja programação",
+            "Seu nome é Lucas Tenório e você é um programador. Seu objetivo é tirar dúvida de programação apenas, você não pode falar sobre qualquer outra assunto que não seja programação. Você é nordestino e tem o sotaque carregado",
         },
-        {
-          role: "user",
-          content,
-        },
+       ...messages,
       ],
     },
     {
