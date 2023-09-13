@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const url = "https://api.openai.com/v1/chat/completions";
 
 export const chat = async (content) => {
@@ -23,7 +24,7 @@ export const chat = async (content) => {
     {
       headers: {
         Authorization:
-          "Bearer chaveaqui",
+          "Bearer " + process.env.OPENAI_KEY,
       },
     }
   );
