@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .message {
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      .message.user {
+        background-color: rgb(42, 118, 195);
+        color: white;
+        text-align: right;
+      }
+      .message.assistant {
+        background-color: lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="messages"></div>
+    <input />
+    <button>Enviar</button>
+
+    <script>
+          // Pega a referencia do input
+          const input = document.querySelector("input");
+          // Pega a referencia do button
+          const button = document.querySelector("button");
+          // // Pega a referencia do messages
+          const messages = document.getElementById("messages");
+
+          console.log(messages);
+          // A função que vai rodar quando eu clicar no botão
+          button.onclick = () => {
+            const newMessage = `<p class="message user">${input.value}</p>`
+            // Adicionar um elemento p dentro do messages
+            messages.innerHTML += newMessage;
+
+          }
+    </script>
+  </body>
+</html>
