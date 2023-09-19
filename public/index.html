@@ -21,6 +21,37 @@
         overflow-x: hidden;
       }
 
+      #loading-alert {
+        display: none;
+        background-color: rgba(42, 118, 195, 0.9);
+        padding: 16px;
+        font-size: 16px;
+        color: white;
+        border-radius: 8px;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 124px;
+      }
+
+      /* Animação de loading */
+      #loading-alert:after {
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: bottom;
+        -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+        animation: ellipsis steps(4, end) 900ms infinite;
+        content: "\2026";
+        width: 0px;
+      }
+
+      @keyframes ellipsis {
+        to {
+          width: 1.25em;
+        }
+      }
+
       form {
         display: flex;
         width: 100%;
@@ -73,31 +104,53 @@
   </head>
   <body>
     <div id="scrollable">
+      <div id="loading-alert">Carregando</div>
       <div id="messages"></div>
     </div>
 
     <form onsubmit="submitForm(event)">
       <input id="text-input" />
-      <button type="submit">Enviar</button>
+      <button id="submit-button" type="submit">Enviar</button>
     </form>
 
     <script>
-      // Pega a referencia do input
+      /**
+       * Pega a referencia dos elementos pelo ID
+       */
+      // Input de texto
       const input = document.getElementById("text-input");
-      // // Pega a referencia do messages
+      // Container de mensagens
       const messages = document.getElementById("messages");
-      // Pega a referencia do scrollavel
+      // Container que lida com o scroll
       const scrollable = document.getElementById("scrollable");
+      // Botão de envio
+      const submitButton = document.getElementById("submit-button");
+      // Alerta de carregamento
+      const loadingAlert = document.getElementById("loading-alert");
 
-      const addMessage = (message, role) => {
+      // Variável que guarda se está carregando ou não
+      let loading = false;
+
+      function addMessage(message, role) {
         const newMessage = `<p class="message ${role}">${message}</p>`;
         messages.innerHTML += newMessage;
 
         scrollable.scrollTop = scrollable.scrollHeight;
-      };
+      }
+
+      function setLoading(isLoading) {
+        loading = isLoading;
+        submitButton.disabled = isLoading;
+        loadingAlert.style.display = isLoading ? "block" : "none";
+      }
 
       // A função que vai rodar quando eu enviar o formulário
       async function submitForm(event) {
+        // Se já estiver carregando, não faz nada
+        if (loading) {
+          return;
+        }
+
         // Previne o comportamento padrão do formulário (recarregar a página)
         event.preventDefault();
 
@@ -114,15 +167,18 @@
 
         // Adiciona a mensagem do usuário no container de mensagens
         addMessage(userMessage, "user");
-        
-        // O que falta fazer?
-        /**
-         * 1. Fazer a requisição para o backend
-         * 2. Pegar a resposta do backend
-         * 3. Adicionar a resposta do backend no container de mensagens
-         */
 
-        addMessage("Resposta da IA aqui", "assistant");
+        setLoading(true);
+
+        // 1. Fazer a requisição para o backend (Simulando uma requisição)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // 2. Pegar a resposta do backend (Simulando uma resposta)
+        const assistantResponse = "Resposta da IA aqui";
+        // 3. Adicionar a resposta do backend no container de mensagens
+        addMessage(assistantResponse, "assistant");
+
+        // Terminou de carregar
+        setLoading(false);
       }
     </script>
   </body>
