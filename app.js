@@ -21,13 +21,8 @@ app.get("/chat", async (req, res) => {
       id = v4();
       chats[id] = [];
     }
-
-    // { idGerado: [] }
     
     chats[id].push({ role: "user", content });
-    // { idGerado: [
-    //  { role: "user", content }
-    // ] }
     
     
     const response = await chat(chats[id]);
